@@ -1,0 +1,32 @@
+@model tp05.Models.Usuario
+
+@{
+    ViewData["Title"] = "Bienvenida";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title">Bienvenida</h2>
+                <p class="card-text">Has iniciado sesión correctamente. Aquí se muestran los datos guardados en la sesión:</p>
+
+                <dl class="row">
+                    <dt class="col-sm-3">Usuario</dt>
+                    <dd class="col-sm-9">@Model.Username</dd>
+
+                    <dt class="col-sm-3">Nombre</dt>
+                    <dd class="col-sm-9">@Model.Nombre</dd>
+
+                    <dt class="col-sm-3">Apellido</dt>
+                    <dd class="col-sm-9">@Model.Apellido</dd>
+
+                    <dt class="col-sm-3">Tipo de usuario</dt>
+                    <dd class="col-sm-9">@Model.TipoUsuario</dd>
+                </dl>
+
+                <a asp-action="Logout" class="btn btn-danger">Cerrar sesión</a>
+            </div>
+        </div>
+    </div>
+</div>
