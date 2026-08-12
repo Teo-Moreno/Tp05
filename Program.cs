@@ -1,4 +1,4 @@
-using tp05.Data;
+using tp05.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

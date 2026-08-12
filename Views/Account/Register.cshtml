@@ -1,4 +1,4 @@
-@model tp05.Models.RegisterViewModel
+@model tp05.Models.Usuario
 
 @{
     ViewData["Title"] = "Registro";
@@ -37,10 +37,10 @@
                 @Html.LabelFor(m => m.TipoUsuario, new { @class = "form-label" })
                 <select id="TipoUsuario" name="TipoUsuario" class="form-select">
                     <option value="">Seleccione un tipo</option>
-                    <option value="Alumno" @(Model.TipoUsuario == "Alumno" ? "selected" : "")>Alumno</option>
-                    <option value="Docente" @(Model.TipoUsuario == "Docente" ? "selected" : "")>Docente</option>
-                    <option value="Coordinador" @(Model.TipoUsuario == "Coordinador" ? "selected" : "")>Coordinador</option>
-                    <option value="Padre" @(Model.TipoUsuario == "Padre" ? "selected" : "")>Padre</option>
+                    <option value="Alumno" selected="@(Model.TipoUsuario == "Alumno" ? "selected" : null)">Alumno</option>
+                    <option value="Docente" selected="@(Model.TipoUsuario == "Docente" ? "selected" : null)">Docente</option>
+                    <option value="Coordinador" selected="@(Model.TipoUsuario == "Coordinador" ? "selected" : null)">Coordinador</option>
+                    <option value="Padre" selected="@(Model.TipoUsuario == "Padre" ? "selected" : null)">Padre</option>
                 </select>
                 @Html.ValidationMessageFor(m => m.TipoUsuario, "", new { @class = "text-danger" })
             </div>

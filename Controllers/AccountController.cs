@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using tp05.Data;
 using tp05.Models;
 
 namespace tp05.Controllers;
@@ -8,33 +7,54 @@ public class AccountController : Controller
 {
     public IActionResult Register()
     {
-        return View(new RegisterViewModel());
+        return View(new Usuario());
     }
 
     [HttpPost]
-    public IActionResult Register(RegisterViewModel model)
+    public IActionResult Register(Usuario model)
     {
-        if (!ModelState.IsValid)
+        if (model.Username == null || model.Username == "")
         {
+            ModelState.AddModelError("Username", "El nombre de usuario es obligatorio.");
             return View(model);
         }
 
-        if (Database.GetUsuarioByUsername(model.Username ?? "") != null)
+        if (model.Password == null || model.Password == "")
         {
-            ModelState.AddModelError(nameof(model.Username), "El nombre de usuario ya existe.");
+            ModelState.AddModelError("Password", "La contraseña es obligatoria.");
             return View(model);
         }
 
-        var usuario = new Usuario
+        if (model.Nombre == null || model.Nombre == "")
         {
-            Username = model.Username,
-            PasswordHash = model.Password,
-            Nombre = model.Nombre,
-            Apellido = model.Apellido,
-            TipoUsuario = model.TipoUsuario
-        };
+            ModelState.AddModelError("Nombre", "El nombre es obligatorio.");
+            return View(model);
+        }
 
-        Database.AddUsuario(usuario);
+        if (model.Apellido == null || model.Apellido == "")
+        {
+            ModelState.AddModelError("Apellido", "El apellido es obligatorio.");
+            return View(model);
+        }
+
+        if (model.TipoUsuario == null || model.TipoUsuario == "")
+        {
+            ModelState.AddModelError("TipoUsuario", "Debe seleccionar un tipo de usuario.");
+            return View(model);
+        }
+
+        if (Database.GetUsuarioByUsername(model.Username) != null)
+        {
+            ModelState.AddModelError("Username", "El nombre de usuario ya existe.");
+            return View(model);
+        }
+
+        var created = Database.AddUsuario(model);
+        if (!created)
+        {
+            ModelState.AddModelError("Username", "El nombre de usuario ya existe.");
+            return View(model);
+        }
 
         TempData["RegisterSuccess"] = "Registro exitoso. Ahora puede iniciar sesión.";
         return RedirectToAction("Login");
@@ -43,18 +63,19 @@ public class AccountController : Controller
     public IActionResult Login()
     {
         ViewBag.Message = TempData["RegisterSuccess"];
-        return View(new LoginViewModel());
+        return View(new Usuario());
     }
 
     [HttpPost]
-    public IActionResult Login(LoginViewModel model)
+    public IActionResult Login(Usuario model)
     {
-        if (!ModelState.IsValid)
+        if (model.Username == null || model.Username == "" || model.Password == null || model.Password == "")
         {
+            ModelState.AddModelError(string.Empty, "Usuario y contraseña son obligatorios.");
             return View(model);
         }
 
-        var usuario = Database.ValidateCredentials(model.Username ?? "", model.Password ?? "");
+        var usuario = Database.ValidateCredentials(model.Username, model.Password);
         if (usuario == null)
         {
             ModelState.AddModelError(string.Empty, "Usuario o contraseña incorrectos.");
@@ -62,10 +83,10 @@ public class AccountController : Controller
         }
 
         HttpContext.Session.SetInt32("UserId", usuario.Id);
-        HttpContext.Session.SetString("Username", usuario.Username ?? "");
-        HttpContext.Session.SetString("Nombre", usuario.Nombre ?? "");
-        HttpContext.Session.SetString("Apellido", usuario.Apellido ?? "");
-        HttpContext.Session.SetString("TipoUsuario", usuario.TipoUsuario ?? "");
+        HttpContext.Session.SetString("Username", usuario.Username);
+        HttpContext.Session.SetString("Nombre", usuario.Nombre);
+        HttpContext.Session.SetString("Apellido", usuario.Apellido);
+        HttpContext.Session.SetString("TipoUsuario", usuario.TipoUsuario);
 
         return RedirectToAction("Bienvenida");
     }
@@ -81,6 +102,18 @@ public class AccountController : Controller
         var model = new Usuario
         {
             Username = username,
-            Nombre = HttpContext.Session.GetString("Nombre") ?? "",
-            Apellido = HttpContext.Session.GetString("Apellido") ?? "",
-            TipoUsuario = HttpContext.Session.GetString("TipoUsuario") ?? ""
+            Nombre = HttpContext.Session.GetString("Nombre") ?? string.Empty,
+            Apellido = HttpContext.Session.GetString("Apellido") ?? string.Empty,
+            TipoUsuario = HttpContext.Session.GetString("TipoUsuario") ?? string.Empty
+        };
+
+        return View(model);
+    }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Login");
+    }
+}
+

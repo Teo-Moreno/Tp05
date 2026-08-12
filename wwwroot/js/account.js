@@ -11,8 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
             var nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
             var errors = [];
 
+            var usernameRegex = /^[a-zA-Z0-9_]+$/;
             if (username.length < 4) {
                 errors.push('El nombre de usuario debe tener al menos 4 caracteres.');
+            }
+            if (!usernameRegex.test(username)) {
+                errors.push('El nombre de usuario sólo puede contener letras, números y guión bajo.');
             }
             if (password.length < 8) {
                 errors.push('La contraseña debe tener al menos 8 caracteres.');
