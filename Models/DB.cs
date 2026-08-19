@@ -1,27 +1,13 @@
-using System.Data.SqlClient;
-using Dapper;
-using Microsoft.Extensions.Configuration;
-
 namespace tp05.Models;
 
-public static class Database
+using System.Data.SqlClient;
+using Dapper;
+
+public static class DB
 {
-    private static string connectionString;
+    private static readonly string _connectionString =
+        @"Server=localhost;Database=LogIn2026SQL;User Id=alumno;Password=alumno;TrustServerCertificate=True;";
 
-    public static void Initialize()
-    {
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
-            .Build();
-
-        Initialize(configuration);
-    }
-
-    public static void Initialize(IConfiguration configuration)
-    {
-        connectionString = configuration.GetConnectionString("DefaultConnection");
-    }
 
     public static Usuario GetUsuarioByUsername(string username)
     {
