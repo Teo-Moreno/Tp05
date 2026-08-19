@@ -1,8 +1,57 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="hero-section">
+    <div class="hero-copy">
+        <span class="hero-badge">Sistema de usuarios</span>
+        <h1>Gestioná tu cuenta</h1>
+        <h2>de forma simple y segura</h2>
+
+        <p>
+            En esta aplicación podés registrarte, iniciar sesión y acceder a tu espacio personal
+            para administrar tus datos con rapidez y claridad.
+        </p>
+
+        <div class="inicio-botones">
+            <a href="/Account/Login" class="boton boton-principal">
+                Iniciar sesión
+            </a>
+            <a href="/Account/Register" class="boton boton-secundario">
+                Registrarse
+            </a>
+        </div>
+    </div>
+
+    <div class="hero-panel">
+        <div class="panel-card">
+            <div class="mini-label">Panel</div>
+            <h3>Acceso rápido</h3>
+            <ul>
+                <li>Registro sencillo</li>
+                <li>Login seguro</li>
+                <li>Datos del usuario</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="feature-grid">
+    <div class="feature-card">
+        <div class="feature-icon">✓</div>
+        <h3>Fácil de usar</h3>
+        <p>Una interfaz clara para que el usuario pueda navegar sin complicaciones.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Seguridad</h3>
+        <p>Validamos datos y controlamos el acceso a la cuenta del usuario.</p>
+    </div>
+
+    <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Rápido</h3>
+        <p>Todo está pensado para ofrecer una experiencia ágil y ordenada.</p>
+    </div>
 </div>
